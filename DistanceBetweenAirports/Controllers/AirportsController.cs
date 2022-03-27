@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using DistanceBetweenAirports.Services;
+using DistanceBetweenAirports.Models;
 
 namespace DistanceBetweenAirports.Controllers
 {
@@ -20,18 +21,17 @@ namespace DistanceBetweenAirports.Controllers
 
         [HttpGet]
         [Route("distance_in_miles")]
-        public async Task<double> GetDistanceBetweenAirportsInMiles(string from, string to)
+        public async Task<ResultData<double>> GetDistanceBetweenAirportsInMiles(string from, string to)
         {
             if(!IsAirportCodeValid(from))
             {
-                _logger.LogError("Airport code should not be null and contains only 3 letters (from)");
+                _logger.LogError(Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (from)");
             }
             if(!IsAirportCodeValid(to))
             {
-                _logger.LogError("Airport code should not be null and contains only 3 letters (to)");
+                _logger.LogError(Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (to)");
             }
-            // TODO: change to message result with status and error message
-            return await _processingService.GetDistanceBetweenAirports(from, to);
+            return await _processingService.GetDistanceBetweenAirportsInMiles(from, to);
         }
 
         private bool IsAirportCodeValid(string code)

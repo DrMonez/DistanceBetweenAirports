@@ -1,4 +1,4 @@
-﻿namespace DistanceBetweenAirports.Services
+﻿namespace DistanceBetweenAirports
 {
     internal static class Constants
     {
@@ -6,6 +6,8 @@
         {
             return objectName + " should not be null";
         }
+
+        public const string UNCORRECT_AIRPORT_CODE_MESSAGE = "Airport code should not be null and contains only 3 letters";
 
         public const string DEFAULT_PROVIDER_URL = "https://places-dev.cteleport.com/airports/";
 

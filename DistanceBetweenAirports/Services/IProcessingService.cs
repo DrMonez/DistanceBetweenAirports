@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using DistanceBetweenAirports.Models;
+using System.Threading.Tasks;
 
 namespace DistanceBetweenAirports.Services
 {
     public interface IProcessingService
     {
-        Task<double> GetDistanceBetweenAirports(string from, string to);
+        Task<ResultData<double>> GetDistanceBetweenAirportsInMiles(string from, string to);
     }
 }

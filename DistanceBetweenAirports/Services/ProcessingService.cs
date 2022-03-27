@@ -17,46 +17,51 @@ namespace DistanceBetweenAirports.Services
             _getAirportInfoService = getAirportInfoService;
         }
 
-        public async Task<double> GetDistanceBetweenAirports(string from, string to)
+        public async Task<ResultData<double>> GetDistanceBetweenAirportsInMiles(string from, string to)
         {
             if (from == null || to == null)
             {
                 _logger.LogError(Constants.GetNullValidationMessage("Airport code"));
-                return 0.0;
+                return new ResultData<double> { error = Constants.GetNullValidationMessage("Airport code") };
             }
             var fromAirportInfo = await GetAirportInfo(from);
             _logger.LogInformation("From Airport Info: " + JsonConvert.SerializeObject(fromAirportInfo));
             var toAirportInfo = await GetAirportInfo(to);
             _logger.LogInformation("To Airport Info: " + JsonConvert.SerializeObject(toAirportInfo));
             
-            return CalculateDistance(fromAirportInfo.Location, toAirportInfo.Location);
+            if (fromAirportInfo.error != null || toAirportInfo.error != null)
+            {
+                return new ResultData<double> { error = string.Join(";", fromAirportInfo.error, toAirportInfo.error) };
+            }
+            return CalculateDistance(fromAirportInfo.result.Location, toAirportInfo.result.Location, Constants.EARTH_RADIUS_IN_MILES);
         }
 
-        private double CalculateDistance(Location from, Location to)
+        private ResultData<double> CalculateDistance(Location from, Location to, double radius)
         {
             if (from == null || to == null)
             {
                 _logger.LogError(Constants.GetNullValidationMessage("Locations"));
-                return 0.0;
+                return new ResultData<double> { error = Constants.GetNullValidationMessage("Locations") };
             }
             var fromLatitudeInRadians = from.Latitude * Math.PI / 180;
             var toLatitudeInRadians = to.Latitude * Math.PI / 180;
             var deltaLatitudeInRadians = (to.Latitude - from.Latitude) * Math.PI / 180;
             var deltaLongitudeInRadians = (to.Longitude - from.Longitude) * Math.PI / 180;
 
-            var a = Math.Sin(deltaLatitudeInRadians / 2) * Math.Sin(deltaLatitudeInRadians / 2) +
+            var beforeSqrtValue = Math.Sin(deltaLatitudeInRadians / 2) * Math.Sin(deltaLatitudeInRadians / 2) +
                 Math.Cos(fromLatitudeInRadians) * Math.Cos(toLatitudeInRadians) *
                 Math.Sin(deltaLongitudeInRadians / 2) * Math.Sin(deltaLongitudeInRadians / 2);
 
-            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var distanceInRadians = 2 * Math.Atan2(Math.Sqrt(beforeSqrtValue), Math.Sqrt(1 - beforeSqrtValue));
 
-            return c * Constants.EARTH_RADIUS_IN_MILES;
+            return new ResultData<double> { result = distanceInRadians * radius };
         }
 
-        private async Task<AirportInfo> GetAirportInfo(string code)
+        private async Task<ResultData<AirportInfo>> GetAirportInfo(string code)
         {
             var normalizedCode = NormalizeAirportCode(code);
-            return (await _getAirportInfoService.GetAirportInfoAsync(normalizedCode)).ToModel();
+            var airportInfoDto = await _getAirportInfoService.GetAirportInfoAsync(normalizedCode);
+            return new ResultData<AirportInfo> { error = airportInfoDto.error, result = airportInfoDto.result?.ToModel() };
         }
 
         private string NormalizeAirportCode(string code)
