@@ -23,18 +23,21 @@ namespace DistanceBetweenAirports.Controllers
         [Route("distance_in_miles")]
         public async Task<ResultData<double>> GetDistanceBetweenAirportsInMiles(string from, string to)
         {
-            if(!IsAirportCodeValid(from))
+            // TODO: add data cache
+            if(!IsValidAirportCode(from))
             {
                 _logger.LogError(Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (from)");
+                return new ResultData<double> { error = Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (from)" };
             }
-            if(!IsAirportCodeValid(to))
+            if(!IsValidAirportCode(to))
             {
                 _logger.LogError(Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (to)");
+                return new ResultData<double> { error = Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (to)" };
             }
             return await _processingService.GetDistanceBetweenAirportsInMiles(from, to);
         }
 
-        private bool IsAirportCodeValid(string code)
+        private bool IsValidAirportCode(string code)
         {
             if(code == null || code.Trim().Length != 3)
             {

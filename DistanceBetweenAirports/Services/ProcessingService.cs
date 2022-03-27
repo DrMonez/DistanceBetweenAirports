@@ -19,6 +19,7 @@ namespace DistanceBetweenAirports.Services
 
         public async Task<ResultData<double>> GetDistanceBetweenAirportsInMiles(string from, string to)
         {
+            // TODO: normalization & validation layers
             if (from == null || to == null)
             {
                 _logger.LogError(Constants.GetNullValidationMessage("Airport code"));
@@ -48,13 +49,11 @@ namespace DistanceBetweenAirports.Services
             var deltaLatitudeInRadians = (to.Latitude - from.Latitude) * Math.PI / 180;
             var deltaLongitudeInRadians = (to.Longitude - from.Longitude) * Math.PI / 180;
 
-            var beforeSqrtValue = Math.Sin(deltaLatitudeInRadians / 2) * Math.Sin(deltaLatitudeInRadians / 2) +
+            var haversine = Math.Sin(deltaLatitudeInRadians / 2) * Math.Sin(deltaLatitudeInRadians / 2) +
                 Math.Cos(fromLatitudeInRadians) * Math.Cos(toLatitudeInRadians) *
                 Math.Sin(deltaLongitudeInRadians / 2) * Math.Sin(deltaLongitudeInRadians / 2);
 
-            var distanceInRadians = 2 * Math.Atan2(Math.Sqrt(beforeSqrtValue), Math.Sqrt(1 - beforeSqrtValue));
-
-            return new ResultData<double> { result = distanceInRadians * radius };
+            return new ResultData<double> { result = 2 * Math.Atan2(Math.Sqrt(haversine), Math.Sqrt(1 - haversine)) * radius };
         }
 
         private async Task<ResultData<AirportInfo>> GetAirportInfo(string code)
