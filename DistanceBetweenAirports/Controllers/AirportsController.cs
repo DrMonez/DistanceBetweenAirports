@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using DistanceBetweenAirports.Services;
-using DistanceBetweenAirports.Models;
+﻿using DistanceBetweenAirports.API.Helpers;
+using DistanceBetweenAirports.Core.Models;
+using DistanceBetweenAirports.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-namespace DistanceBetweenAirports.Controllers
+namespace DistanceBetweenAirports.API.Controllers
 {
+    /// <summary>
+    /// Airports controller.
+    /// </summary>
     [ApiController]
     [Route("api/airports")]
     public class AirportsController : ControllerBase
@@ -19,31 +21,30 @@ namespace DistanceBetweenAirports.Controllers
             _processingService = processingService;
         }
 
+        /// <summary>
+        /// Get distance between two airports.
+        /// </summary>
+        /// <param name="from">3-letter IATA code of departure airport.</param>
+        /// <param name="to">3-letter IATA code of arrival airport.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("distance_in_miles")]
         public async Task<ResultData<double>> GetDistanceBetweenAirportsInMiles(string from, string to)
         {
-            // TODO: add data cache
-            if(!IsValidAirportCode(from))
+            // TODO: add external data cache (e.g. Redis)
+            if (!ValidationHelper.IsValidAirportCode(from))
             {
-                _logger.LogError(Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (from)");
-                return new ResultData<double> { error = Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (from)" };
+                var message = Constants.UncorrectAirportCodeMessage + " (from)";
+                _logger.LogError(message);
+                return new ResultData<double> { Error = message };
             }
-            if(!IsValidAirportCode(to))
+            if (!ValidationHelper.IsValidAirportCode(to))
             {
-                _logger.LogError(Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (to)");
-                return new ResultData<double> { error = Constants.UNCORRECT_AIRPORT_CODE_MESSAGE + " (to)" };
+                var message = Constants.UncorrectAirportCodeMessage + " (to)";
+                _logger.LogError(message);
+                return new ResultData<double> { Error = message };
             }
             return await _processingService.GetDistanceBetweenAirportsInMiles(from, to);
-        }
-
-        private bool IsValidAirportCode(string code)
-        {
-            if(code == null || code.Trim().Length != 3)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }

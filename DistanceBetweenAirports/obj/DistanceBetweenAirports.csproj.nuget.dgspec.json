@@ -1,36 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Своё производство\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj": {}
+    "C:\\Users\\Aleksei_Iost\\Documents\\GitHub\\.NET-Advanced\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj": {}
   },
   "projects": {
-    "D:\\Своё производство\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj": {
+    "C:\\Users\\Aleksei_Iost\\Documents\\GitHub\\.NET-Advanced\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Своё производство\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj",
+        "projectUniqueName": "C:\\Users\\Aleksei_Iost\\Documents\\GitHub\\.NET-Advanced\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj",
         "projectName": "DistanceBetweenAirports",
-        "projectPath": "D:\\Своё производство\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj",
-        "packagesPath": "C:\\Users\\iosta\\.nuget\\packages\\",
-        "outputPath": "D:\\Своё производство\\DistanceBetweenAirports\\DistanceBetweenAirports\\obj\\",
+        "projectPath": "C:\\Users\\Aleksei_Iost\\Documents\\GitHub\\.NET-Advanced\\DistanceBetweenAirports\\DistanceBetweenAirports\\DistanceBetweenAirports.csproj",
+        "packagesPath": "C:\\Users\\Aleksei_Iost\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aleksei_Iost\\Documents\\GitHub\\.NET-Advanced\\DistanceBetweenAirports\\DistanceBetweenAirports\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\iosta\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Aleksei_Iost\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -38,19 +38,24 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
-            "Newtonsoft.Json": {
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
-              "version": "[13.0.1, )"
+              "version": "[1.19.6, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.3.0, )"
+              "version": "[6.4.0, )"
             }
           },
           "imports": [
@@ -59,7 +64,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -71,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

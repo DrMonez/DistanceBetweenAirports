@@ -1,0 +1,6 @@
+@DistanceBetweenAirports_HostAddress = http://localhost:5001
+
+GET {{DistanceBetweenAirports_HostAddress}}/api/airports/
+Accept: application/json
+
+###
